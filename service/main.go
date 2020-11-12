@@ -2,20 +2,18 @@ package main
 
 import (
 	"encoding/json"
-	"github.com/markdouthwaite/lingo"
 	"github.com/gorilla/mux"
+	"github.com/markdouthwaite/lingo"
+	"log"
 	"net/http"
 	"os"
 	"time"
-	"log"
 )
-
 
 type response struct {
 	Status string            `json:"status,omitempty"`
 	Errors map[string]string `json:"errors,omitempty"`
 }
-
 
 func healthCheck(w http.ResponseWriter, r *http.Request) {
 	code := http.StatusOK
@@ -26,7 +24,6 @@ func healthCheck(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
-
 func getEnvWithDefault(key, defaultValue string) string {
 	if value, ok := os.LookupEnv(key); ok {
 		return value
@@ -34,12 +31,11 @@ func getEnvWithDefault(key, defaultValue string) string {
 	return defaultValue
 }
 
-
-func main(){
+func main() {
 	host := getEnvWithDefault("HOST", "0.0.0.0")
 	port := getEnvWithDefault("PORT", "8000")
 
-	model := lingo.LoadClassifier("breast-cancer-1.h5")
+	model := lingo.LoadClassifier("artifacts/breast-cancer-1.h5")
 	handler := lingo.NewClassifierHandler(model)
 
 	router := mux.NewRouter()
