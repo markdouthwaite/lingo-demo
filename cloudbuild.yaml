@@ -1,0 +1,11 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: 'bash'
+    args: ['-c', 'docker build -t gcr.io/$PROJECT_ID/lingo-demo ./service']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/lingo-demo']
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args: ['run', 'deploy', 'lingo', '--image', 'gcr.io/$PROJECT_ID/lingo-demo', '--platform', 'managed', '--region', 'europe-west1']
+images:
+  - "gcr.io/$PROJECT_ID/lingo-demo"
