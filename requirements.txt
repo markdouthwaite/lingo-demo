@@ -1,0 +1,6 @@
+py-lingo
+typing_extensions
+fire
+locust
+isort
+black
